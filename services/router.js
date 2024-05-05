@@ -24,8 +24,7 @@ const router = {
         console.log(path)
         switch(path){
             case "/":
-                pageElement = document.createElement("h1")
-                pageElement.textContent = "Menu"
+                pageElement = document.createElement("menu-page")
                 break;
             case "/order":
                 pageElement = document.createElement("h1")
