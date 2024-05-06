@@ -1,4 +1,10 @@
 export class OrderPage extends HTMLElement{
+    #user = {
+        name:"",
+        email:"",
+        phone:"",
+    }
+
     constructor(){
         super()
         this.root = this.attachShadow({mode:"open"})
@@ -14,6 +20,34 @@ export class OrderPage extends HTMLElement{
             styles.textContent =  await response.text();
         })();
     }
+
+    setFormBindings(form) {
+        form.addEventListener("submit", event => {
+          event.preventDefault();
+          alert(`Thanks for your order ${this.#user.name}. ${this.#user.email ? "We will be sending you the receipt over email." : "Ask at the counter for a receipt."}`);
+          this.#user.name = "";
+          this.#user.email = "";
+          this.#user.phone = "";
+    
+          // TODO: sent user and cart's details to the server
+        });
+    
+        // Set double data binding
+        Array.from(form.elements).forEach(element => {
+          if (element.name) {
+            element.addEventListener("change", event => {
+              this.#user[element.name] = element.value;
+            })
+          }
+        });
+        this.#user = new Proxy(this.#user, {
+          set(target, property, value) {
+            target[property] = value;
+            form.elements[property].value = value;
+            return true;
+          }
+        })
+      }
 
     connectedCallback(){
         window.addEventListener("appcartchange", () => {
@@ -55,6 +89,7 @@ export class OrderPage extends HTMLElement{
                 </li>                
             `;      
         } 
+        this.setFormBindings(this.root.querySelector("form"))
     }
 }
 
