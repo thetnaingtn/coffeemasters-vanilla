@@ -32,8 +32,7 @@ const router = {
                 break;
             default:
                 if (path.startsWith("/product-")) {                
-                    pageElement = document.createElement("h1");
-                    pageElement.textContent = "Details";
+                    pageElement = document.createElement("details-page");
                     pageElement.dataset.productId = path.substring(path.lastIndexOf("-")+1);
                 }
                 break;
