@@ -1,4 +1,5 @@
 import { getProductById } from "../services/menu.js";
+import {addToCart} from '../services/order.js'
 
 export class DetailsPage extends HTMLElement{
     constructor(){
@@ -26,7 +27,7 @@ export class DetailsPage extends HTMLElement{
             this.root.querySelector("p.price").textContent = product.price
             this.root.querySelector("img").src = `data/images/${product.image}`
             this.root.querySelector("button").addEventListener("click", ()=> {
-                // TODO addToCart(this.product.id); 
+                addToCart(product.id); 
                 app.router.go('/order');
             })
         }else{
