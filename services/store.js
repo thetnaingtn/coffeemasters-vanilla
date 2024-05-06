@@ -6,6 +6,7 @@ const store = {
 const proxiedStore = new Proxy(store, {
     set(target, property, value){
         if(property === 'menu'){
+            target[property] = value;
             const event = new Event("appmenuchange")
             window.dispatchEvent(event)
         }
@@ -14,7 +15,7 @@ const proxiedStore = new Proxy(store, {
             window.dispatchEvent(event)
         }
         return true;
-    }
+    },
 })
 
 export default proxiedStore
